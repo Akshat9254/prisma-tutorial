@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  posts         Post[]
+  comments      Comment[]
+  likedComments Like[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+}
+
+model Post {
+  id    String @id @default(uuid())
+  title String
+  body  String @db.VarChar(1000)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  comments Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id   String @id @default(uuid())
+  text String
+
+  post     Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  parent   Comment?  @relation("parent_child", fields: [parentId], references: [id])
+  parentId String?
+  children Comment[] @relation("parent_child")
+  likes    Like[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Like {
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, commentId])
+}
