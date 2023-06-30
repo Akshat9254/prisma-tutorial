@@ -10,6 +10,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
         <Container maxW={"container.md"}>
+          <h1>Hello</h1>
           <HomePage />
         </Container>
       </ChakraProvider>
