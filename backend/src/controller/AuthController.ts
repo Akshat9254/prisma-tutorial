@@ -11,6 +11,7 @@ class AuthController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
+    console.log('Logging...')
     try {
       const user = await this.authService.login(email, password);
       const response: ApiResponse<UserDto> = {
