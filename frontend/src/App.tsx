@@ -12,6 +12,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ChakraProvider>
           <Container maxW={"container.md"}>
+            <h1>Hello</h1>
             <Routes>
               <Route path="/" element={<PaymentPage />} />
               <Route path="/home" element={<HomePage />} />
