@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { env } from "./config";
-import { authRouter, commentRouter, postRouter } from "./routes";
+import { authRouter, commentRouter, paymentRouter, postRouter } from "./routes";
 import { errorHandlerMiddleware } from "./middleware";
 
 const app = express();
@@ -11,6 +11,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
+app.use("/payment", paymentRouter);
 
 app.use(errorHandlerMiddleware);
 
