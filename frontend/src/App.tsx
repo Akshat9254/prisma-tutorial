@@ -1,5 +1,6 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider, Container } from "@chakra-ui/react";
-import { HomePage } from "./pages";
+import { HomePage, PaymentPage } from "./pages";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
@@ -7,15 +8,20 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider>
-        <Container maxW={"container.md"}>
-          <h1>Hello</h1>
-          <HomePage />
-        </Container>
-      </ChakraProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider>
+          <Container maxW={"container.md"}>
+            <h1>Hello</h1>
+            <Routes>
+              <Route path="/" element={<PaymentPage />} />
+              <Route path="/home" element={<HomePage />} />
+            </Routes>
+          </Container>
+        </ChakraProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </BrowserRouter>
   );
 }
 
